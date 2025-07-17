@@ -162,3 +162,6 @@ checkboxes.forEach(cb => {
     document.getElementById("done-count").textContent = updatedDone;
   });
 });
+
+  renderTable(reservationData);
+
