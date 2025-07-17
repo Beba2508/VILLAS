@@ -1,4 +1,5 @@
-console.log("JS učitan")
+console.log("✅ script.js is loaded");
+
 const reservationData = [
   {
     villa: "Noble Villas",
@@ -13,14 +14,27 @@ const reservationData = [
     unit: "Prima",
     channel: "MyLuxoria",
     id: 123457,
-    arrival: "2025-07-26",
+    arrival: "2025-07-24",
     guest: "Ivan Horvat",
+  },
+  {
+    villa: "Noble Villas",
+    unit: "Villa Stella",
+    channel: "Airbnb",
+    id: 123458,
+    arrival: "2025-07-22",
+    guest: "Petra Kovač",
   }
 ];
 
+function formatDate(isoDate) {
+  const [year, month, day] = isoDate.split("-");
+  return `${day}.${month}.${year}`;
+}
+
 function renderTable(data) {
   const container = document.querySelector("body");
-  container.innerHTML = "<h1>🧙‍♀️ Rezervacije vila</h1>"; // reset i naslov
+  container.innerHTML = "<h1>🧙‍♀️ Rezervacije vila</h1>";
 
   // Grupiraj po vili
   const grouped = {};
@@ -29,7 +43,6 @@ function renderTable(data) {
     grouped[r.villa].push(r);
   });
 
-  // Za svaku villu nacrtaj tablicu
   Object.keys(grouped).forEach(villaName => {
     const section = document.createElement("section");
 
@@ -62,45 +75,43 @@ function renderTable(data) {
 
     const tbody = table.querySelector("tbody");
 
-    // Sortiraj po datumu
-    grouped[villaName].sort((a, b) => new Date(a.arrival) - new Date(b.arrival));
+    grouped[villaName]
+      .sort((a, b) => new Date(a.arrival) - new Date(b.arrival))
+      .forEach(r => {
+        const row = document.createElement("tr");
+        const arrivalFormatted = formatDate(r.arrival);
 
-    grouped[villaName].forEach(r => {
-      const row = document.createElement("tr");
-      const arrivalFormatted = formatDate(r.arrival);
+        row.innerHTML = `
+          <td>${r.unit}</td>
+          <td>${r.channel}</td>
+          <td>${r.id}</td>
+          <td>${arrivalFormatted}</td>
+          <td>${r.guest}</td>
+          <td><input type="time" /></td>
+          <td>
+            <select><option value="">--</option><option>ima</option><option>nema</option><option>naplaćeno</option></select>
+          </td>
+          <td>
+            <select><option value="">--</option><option>ima</option><option>nema</option><option>naplaćeno</option></select>
+          </td>
+          <td><input type="text" placeholder="€" /></td>
+          <td>
+            <select><option value="">--</option><option>nema</option><option>naplaćeno</option><option>treba naplatiti</option></select>
+          </td>
+          <td><input type="text" placeholder="Ime hosta" /></td>
+          <td>
+            <select><option value="">--</option><option>YES</option><option>NO</option></select>
+          </td>
+          <td><input type="number" min="0" placeholder="sati" /></td>
+          <td><input type="text" placeholder="Napomena" /></td>
+        `;
 
-      row.innerHTML = `
-        <td>${r.unit}</td>
-        <td>${r.channel}</td>
-        <td>${r.id}</td>
-        <td>${arrivalFormatted}</td>
-        <td>${r.guest}</td>
-        <td><input type="time" /></td>
-        <td>
-          <select><option value="">--</option><option>ima</option><option>nema</option><option>naplaćeno</option></select>
-        </td>
-        <td>
-          <select><option value="">--</option><option>ima</option><option>nema</option><option>naplaćeno</option></select>
-        </td>
-        <td><input type="text" placeholder="€" /></td>
-        <td>
-          <select><option value="">--</option><option>nema</option><option>naplaćeno</option><option>treba naplatiti</option></select>
-        </td>
-        <td><input type="text" placeholder="Ime hosta" /></td>
-        <td>
-          <select><option value="">--</option><option>YES</option><option>NO</option></select>
-        </td>
-        <td><input type="number" min="0" placeholder="sati" /></td>
-        <td><input type="text" placeholder="Napomena" /></td>
-      `;
-      tbody.appendChild(row);
-    });
+        tbody.appendChild(row);
+      });
 
     section.appendChild(table);
     container.appendChild(section);
   });
 }
-function formatDate(isoDate) {
-  const [year, month, day] = isoDate.split("-");
-  return `${day}.${month}.${year}`;
-}
+
+renderTable(reservationData);
