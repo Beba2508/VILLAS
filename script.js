@@ -25,6 +25,30 @@ const reservationData = [
     arrival: "2025-07-22",
     guest: "Petra Kovač",
   }
+  {
+  villa: "Villa Lidija",
+  unit: "Penthouse Lidija",
+  channel: "Airbnb",
+  id: 123459,
+  arrival: "2025-07-28",
+  guest: "Kristina Novak"
+},
+{
+  villa: "Tie Vižinada Villa",
+  unit: "Vižinada 1",
+  channel: "MyLuxoria",
+  id: 123460,
+  arrival: "2025-07-29",
+  guest: "Boris Kovač"
+},
+{
+  villa: "OLA Luxury Apartment",
+  unit: "OLA 301",
+  channel: "",
+  id: 123461,
+  arrival: "2025-07-30",
+  guest: "Jana Orešković"
+}
 ];
 
 function formatDate(isoDate) {
