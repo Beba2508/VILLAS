@@ -34,11 +34,13 @@ th {
 td input,
 td select {
   width: 100%;
-  padding: 4px;
+  min-width: 100px; /* ⬅ dodano za sigurnu širinu */
+  padding: 6px 10px;
   background-color: #3c3c50;
   border: none;
   color: #fff;
   border-radius: 4px;
+  font-size: 14px;
 }
 
 td input:focus,
