@@ -35,24 +35,27 @@ function formatDate(isoDate) {
 function renderTable(data) {
   const container = document.querySelector("body");
   container.innerHTML = "<h1>🐐 VILLE REZERVACIJE 🐐</h1>";
-  const description = document.createElement("p");
-description.textContent = "Ovo je tablica sa svim dolascima u Ville za potrebe koordinacije H&C tima. Emoji koze je tu jer Beba voli koze.";
-description.style.marginBottom = "20px";
-container.appendChild(description);
-  const button = document.createElement("a");
-button.href = "https://irundo.com/rentlioapi/Villas_checkin_out.php";
-button.textContent = "🧼 Raspored čišćenja za ville";
-button.target = "_blank";
-button.style.display = "inline-block";
-button.style.padding = "10px 20px";
-button.style.marginBottom = "30px";
-button.style.backgroundColor = "#ffb6d9";
-button.style.color = "#1e1e2f";
-button.style.textDecoration = "none";
-button.style.borderRadius = "8px";
-button.style.fontWeight = "bold";
-container.appendChild(button);
 
+  // ➕ Opis
+  const description = document.createElement("p");
+  description.textContent = "Ovo je tablica sa svim dolascima u Ville za potrebe koordinacije H&C tima. Emoji koze je tu jer Beba voli koze.";
+  description.style.marginBottom = "20px";
+  container.appendChild(description);
+
+  // ➕ Gumb za čišćenje
+  const button = document.createElement("a");
+  button.href = "https://irundo.com/rentlioapi/Villas_checkin_out.php";
+  button.textContent = "🧼 Raspored čišćenja za ville";
+  button.target = "_blank";
+  button.style.display = "inline-block";
+  button.style.padding = "10px 20px";
+  button.style.marginBottom = "30px";
+  button.style.backgroundColor = "#ffb6d9";
+  button.style.color = "#1e1e2f";
+  button.style.textDecoration = "none";
+  button.style.borderRadius = "8px";
+  button.style.fontWeight = "bold";
+  container.appendChild(button);
 
   // Grupiraj po vili
   const grouped = {};
@@ -125,43 +128,40 @@ container.appendChild(button);
           <td><input type="text" placeholder="Napomena" /></td>
           <td><input type="checkbox" class="done-checkbox" /></td>
         `;
-const checkbox = row.querySelector(".done-checkbox");
-checkbox.addEventListener("change", () => {
-  if (checkbox.checked) {
-    row.style.backgroundColor = "#2d4833"; // zelenkasta kad je označeno
-  } else {
-    row.style.backgroundColor = ""; // vrati na normalno
-  }
-});
+
+        const checkbox = row.querySelector(".done-checkbox");
+        checkbox.addEventListener("change", () => {
+          if (checkbox.checked) {
+            row.style.backgroundColor = "#2d4833"; // zelenkasta
+          } else {
+            row.style.backgroundColor = "";
+          }
+
+          // Live ažuriranje statistike
+          const updatedDone = document.querySelectorAll(".done-checkbox:checked").length;
+          document.getElementById("done-count").textContent = updatedDone;
+        });
 
         tbody.appendChild(row);
       });
 
     const wrapper = document.createElement("div");
-wrapper.className = "table-wrapper";
-wrapper.appendChild(table);
-section.appendChild(wrapper);
-container.appendChild(section);
-});
-
-// 🔢 Nakon što su sve tablice dodane – dodaj statistiku
-const checkboxes = document.querySelectorAll(".done-checkbox");
-const total = checkboxes.length;
-const done = Array.from(checkboxes).filter(cb => cb.checked).length;
-
-const stats = document.createElement("p");
-stats.innerHTML = `🔢 <strong>Ukupno dolazaka:</strong> ${total} &nbsp;&nbsp; ✅ <strong>Odrađeno:</strong> <span id="done-count">${done}</span>`;
-stats.style.marginTop = "30px";
-stats.style.fontSize = "16px";
-container.appendChild(stats);
-
-// Live ažuriranje kada klikneš kvačicu
-checkboxes.forEach(cb => {
-  cb.addEventListener("change", () => {
-    const updatedDone = Array.from(checkboxes).filter(cb => cb.checked).length;
-    document.getElementById("done-count").textContent = updatedDone;
+    wrapper.className = "table-wrapper";
+    wrapper.appendChild(table);
+    section.appendChild(wrapper);
+    container.appendChild(section);
   });
-});
 
-  renderTable(reservationData);
+  // ➕ Statistika
+  const checkboxes = document.querySelectorAll(".done-checkbox");
+  const total = checkboxes.length;
+  const done = document.querySelectorAll(".done-checkbox:checked").length;
 
+  const stats = document.createElement("p");
+  stats.innerHTML = `🔢 <strong>Ukupno dolazaka:</strong> ${total} &nbsp;&nbsp; ✅ <strong>Odrađeno:</strong> <span id="done-count">${done}</span>`;
+  stats.style.marginTop = "30px";
+  stats.style.fontSize = "16px";
+  container.appendChild(stats);
+}
+
+renderTable(reservationData);
