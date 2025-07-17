@@ -1,3 +1,4 @@
+console.log("JS učitan")
 const reservationData = [
   {
     villa: "Noble Villas",
