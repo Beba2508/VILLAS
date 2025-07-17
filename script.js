@@ -68,6 +68,7 @@ function renderTable(data) {
           <th>Host kontaktiran?</th>
           <th>Broj sati check-ina</th>
           <th>Priprema za gosta</th>
+          <th>✔</th>
         </tr>
       </thead>
       <tbody></tbody>
@@ -104,7 +105,16 @@ function renderTable(data) {
           </td>
           <td><input type="number" min="0" placeholder="sati" /></td>
           <td><input type="text" placeholder="Napomena" /></td>
+          <td><input type="checkbox" class="done-checkbox" /></td>
         `;
+const checkbox = row.querySelector(".done-checkbox");
+checkbox.addEventListener("change", () => {
+  if (checkbox.checked) {
+    row.style.backgroundColor = "#2d4833"; // zelenkasta kad je označeno
+  } else {
+    row.style.backgroundColor = ""; // vrati na normalno
+  }
+});
 
         tbody.appendChild(row);
       });
