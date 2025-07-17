@@ -61,7 +61,7 @@ function renderTable(data) {
           <th>Gost</th>
           <th>ETA</th>
           <th>Damage deposit</th>
-          <th>BP</th>
+          <th>Tourist tax</th>
           <th>Dodatne usluge</th>
           <th>Naplata usluga</th>
           <th>Host</th>
