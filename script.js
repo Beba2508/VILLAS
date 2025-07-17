@@ -119,7 +119,10 @@ checkbox.addEventListener("change", () => {
         tbody.appendChild(row);
       });
 
-    section.appendChild(table);
+    const wrapper = document.createElement("div");
+wrapper.className = "table-wrapper";
+wrapper.appendChild(table);
+section.appendChild(wrapper);
     container.appendChild(section);
   });
 }
