@@ -102,17 +102,37 @@ function renderTable(data) {
       .forEach(r => {
         const row = document.createElement("tr");
         const arrivalFormatted = formatDate(r.arrival);
+        // 1) Ako je Villa Lidija, default host = Daniela
+const isLidija = r.villa === "Villa Lidija";
+const hostDefault = isLidija ? "Daniela" : "";
+
+// 2) Ako je jedna od ovih vila, Damage deposit = "ima"
+const alwaysImaDeposit = ["Tie Vižinada Villa", "Bronzees Villas", "OLA Luxury Apartment"].includes(r.villa);
+const depositDefault = alwaysImaDeposit ? "ima" : "";
+
+// 4) Ako kanal nije definiran (prazan), možemo ga ručno upisati
+const channelEditable = r.channel || "";
+
+// 5) Ako kanal nije Booking.com ili Airbnb → priprema za gosta = "trebamo naplatiti CF"
+const needsCF = r.channel !== "Booking.com" && r.channel !== "Airbnb";
+const prepDefault = needsCF ? "trebamo naplatiti CF" : "";
+
 
         row.innerHTML = `
           <td>${r.unit}</td>
-          <td>${r.channel}</td>
+          <td><input type="text" value="${channelEditable}" placeholder="Kanal prodaje" /></td>
           <td>${r.id}</td>
           <td>${arrivalFormatted}</td>
           <td>${r.guest}</td>
           <td><input type="time" /></td>
-          <td>
-            <select><option value="">--</option><option>ima</option><option>nema</option><option>naplaćeno</option></select>
-          </td>
+         <td>
+  <select>
+    <option value="" ${depositDefault === "" ? "selected" : ""}>--</option>
+    <option ${depositDefault === "ima" ? "selected" : ""}>ima</option>
+    <option>nema</option>
+    <option>naplaćeno</option>
+  </select>
+</td>
           <td>
             <select><option value="">--</option><option>ima</option><option>nema</option><option>naplaćeno</option></select>
           </td>
@@ -120,12 +140,12 @@ function renderTable(data) {
           <td>
             <select><option value="">--</option><option>nema</option><option>naplaćeno</option><option>treba naplatiti</option></select>
           </td>
-          <td><input type="text" placeholder="Ime hosta" /></td>
+          <td><input type="text" placeholder="Ime hosta" value="${hostDefault}" /></td>
           <td>
             <select><option value="">--</option><option>YES</option><option>NO</option></select>
           </td>
           <td><input type="number" min="0" placeholder="sati" /></td>
-          <td><input type="text" placeholder="Napomena" /></td>
+          <td><input type="text" placeholder="Napomena" value="${prepDefault}" /></td>
           <td><input type="checkbox" class="done-checkbox" /></td>
         `;
 
