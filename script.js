@@ -24,7 +24,7 @@ const reservationData = [
     id: 123458,
     arrival: "2025-07-22",
     guest: "Petra Kovač",
-  }
+  },
   {
   villa: "Villa Lidija",
   unit: "Penthouse Lidija",
